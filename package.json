@@ -1,0 +1,23 @@
+{
+  "name": "benpavey-portfolio-tests",
+  "version": "1.0.0",
+  "description": "README added",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenPavey/benpavey-portfolio-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenPavey/benpavey-portfolio-tests/issues"
+  },
+  "homepage": "https://github.com/BenPavey/benpavey-portfolio-tests#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.50.1"
+  }
+}

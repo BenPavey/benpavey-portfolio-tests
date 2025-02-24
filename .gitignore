@@ -1,0 +1,12 @@
+# Python virtual environment
+venv/
+
+# Node dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Test reports and screenshots
+test-report/
+screenshots/
