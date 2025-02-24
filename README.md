@@ -56,68 +56,114 @@ This repository contains a test suite built with [Playwright](https://playwright
   - `screenshots/` — Folder for saving test screenshots.
   - `test-report/` — Folder where test reports are generated.
 
-- **.env** *(Local file; not committed)*  
-  Used for storing environment-specific configurations and sensitive data (e.g., API keys, base URLs). It is not tracked by Git to protect sensitive information.
+---
 
-## Getting Started
+## **🛠 Dependencies & Getting Started**
 
-### Prerequisites
+This section covers all required dependencies and steps to run the Playwright test suite **locally** or within **Kubernetes (Minikube).**
 
-- **Node.js and npm**:  
-  Ensure you have Node.js (which includes npm) installed. Download from [nodejs.org](https://nodejs.org).
+---
 
-- **Python (Optional)**:  
-  If you're working with Django for your portfolio, consider setting up a Python virtual environment to manage Python dependencies separately.
+### **📌 Prerequisites**
+Ensure you have the following installed:
 
-### Setup Instructions
+- **Node.js & npm** – Required for Playwright and test execution.
+- **Playwright** – Automated browser testing framework.
+- **Docker** – Required for containerizing the test suite (optional for local execution).
+- **Kubernetes (Minikube)** – Local Kubernetes cluster for running tests inside a Job.
+- **Helm** – Package manager for deploying test workloads in Kubernetes.
+- **(Optional) Python** – If working with Django, set up a virtual environment.
 
-1. **Clone the Repository:**
+---
 
-   ```bash
-   git clone https://github.com/yourusername/benpavey-portfolio-tests.git
-   cd benpavey-portfolio-tests
-   ```
+### **🔧 Installation Commands**
+#### **1️⃣ Install Core Dependencies**
+```bash
+# Install Node.js and npm (if not installed)
+brew install node  # macOS
+sudo apt install nodejs npm  # Ubuntu/Debian
+choco install nodejs  # Windows
 
-2. **(Optional) Create a Python Virtual Environment:**
+# Install Playwright and required browsers
+npm install
+npx playwright install
+```
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+#### **2️⃣ (Optional) Set Up a Python Virtual Environment**
+```bash
+python3 -m venv venv
+source venv/bin/activate  # macOS/Linux
+venv\Scripts\activate  # Windows
+```
 
-3. **Install Node Dependencies:**
+#### **3️⃣ Install Docker & Kubernetes Tools**
+```bash
+# Install Docker
+brew install --cask docker  # macOS
+sudo apt install docker.io  # Ubuntu/Debian
+choco install docker-desktop  # Windows
 
-   ```bash
-   npm install
-   ```
+# Install Minikube (for local Kubernetes)
+brew install minikube  # macOS
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/minikube  # Linux
 
-4. **Install Playwright Browsers:**
+# Install Helm (for managing Kubernetes deployments)
+brew install helm  # macOS
+sudo apt install helm  # Ubuntu/Debian
+choco install kubernetes-helm  # Windows
+```
 
-   ```bash
-   npx playwright install
-   ```
+---
 
-5. **Run the Tests:**
+## **🚀 Running the Tests**
+This section covers **two ways to execute tests:**
+1. **Locally** (without Kubernetes)
+2. **Inside Kubernetes (Minikube)**
 
-   ```bash
-   npx playwright test
-   ```
+---
 
-## Testing Modes
+### **1️⃣ Running Playwright Tests Locally**
+For local execution, run:
 
-- **Head Mode:**  
-  Tests run with a visible browser window for easier debugging.
-  
-- **Headless Mode:**  
-  For faster execution (especially in CI/CD environments), tests can be run in headless mode by toggling the setting in `playwright.config.js` or via CLI flags.
+```bash
+npx playwright test
+```
 
-## CI/CD and Future Enhancements
+This will:
+- Launch a browser and execute tests.
+- Run in **headless mode** by default (configurable in `playwright.config.js`).
+- Generate an **HTML report** with results.
 
-- **CI/CD Pipeline:**  
-  Plans include integrating with GitHub Actions to run tests on pushes to the main branch and scheduled runs (e.g., weekly or daily at 8 AM).
+---
 
-- **Docker and Kubernetes:**  
-  Future phases will containerize the test suite using Docker and deploy it to a GCP Kubernetes cluster, using Helm charts for configuration and deployment. This will also include setting up scheduled tests to reduce service usage.
+### **2️⃣ Running the Tests in Kubernetes**
+To run the tests inside **Minikube**: refer to GUIDE.md
+
+---
+
+## **Workflow Summary**
+The Playwright test suite follows this workflow:
+
+1. **Tests are defined** in Playwright (`tests/` directory).
+2. **Locally, tests can be executed** via `npx playwright test`.
+3. **To run tests in Kubernetes**, a Docker image is built and deployed:
+   - The **Docker container** includes Playwright, dependencies, and tests.
+   - The container is **deployed as a Kubernetes Job** via Helm.
+   - **Helm charts** (`values.yaml`, `job.yaml`) configure the test execution.
+4. **Test logs are retrieved from Kubernetes** after execution.
+
+---
+
+## **Future Enhancements**
+### **1️⃣ Automating Tests with a Scheduled CronJob**
+- Once the test suite is migrated to **Google Kubernetes Engine (GKE)**, a **Kubernetes CronJob** will be used to **run tests automatically every Monday at 8 AM**.
+- This will remove the need for manual execution.
+
+### **2️⃣ Migrating to Google Kubernetes Engine (GKE)**
+- Move from **Minikube (local)** to **Google Cloud** to allow **tests to run without requiring a local machine to be online**.
+- Docker images will be stored in **Google Container Registry (GCR)**.
+
+---
 
 ## Contributing
 
@@ -126,7 +172,6 @@ Contributions are welcome! To contribute:
 2. Create a feature branch (e.g., `feature/new-test`).
 3. Commit your changes with clear commit messages.
 4. Open a pull request for review.
-
 
 ---
 

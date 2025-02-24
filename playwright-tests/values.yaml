@@ -1,0 +1,41 @@
+# Default values for the playwright-tests Helm chart.
+
+# The Docker image used to run the Playwright tests
+image:
+  repository: benpavey-tests  # For Minikube, use the local image name.
+                              # Later, replace with GCR: gcr.io/your-project-id/benpavey-tests
+  tag: latest  # Always use the latest built image
+  pullPolicy: IfNotPresent  # Use "IfNotPresent" for Minikube, change to "Always" for GCP
+
+# Environment variables for the test execution
+env:
+  BASE_URL: "https://www.benpavey.com"  # Your production site URL for tests
+  HEADLESS: "true"  # Run Playwright tests in headless mode
+  BROWSER: "chromium"  # Default browser for test execution
+
+# Kubernetes Job configuration
+job:
+  restartPolicy: Never  # Ensures the job runs once and does not restart automatically
+  backoffLimit: 0  # No retries if the test fails
+  parallelism: 1  # Runs one test instance at a time (increase later for parallel execution)
+
+# Resource limits & requests (adjust based on Minikube/GCP later)
+resources:
+  limits:
+    cpu: "1"  # Limits CPU usage to 1 core
+    memory: "2Gi"  # Limits memory usage to 2GB
+  requests:
+    cpu: "500m"  # Requests 0.5 core for execution
+    memory: "1Gi"  # Requests 1GB memory to ensure availability
+
+# Node selector for Minikube (modify later for GCP)
+nodeSelector: {}
+
+# Tolerations allow running on tainted nodes (not needed for now)
+tolerations: []
+
+# Affinity settings for scheduling (can be configured in GCP)
+affinity: {}
+
+ingress:
+  enabled: false  # Keep Ingress disabled (not needed for a Kubernetes Job)

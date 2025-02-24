@@ -1,0 +1,14 @@
+apiVersion: v2  # The API version for the chart. For Helm v3, v2 is used.
+name: playwright-tests  # The name of the Helm chart.
+description: A Helm chart for Kubernetes  # A short description of the chart.
+
+# A chart can be either an 'application' or a 'library' chart.
+# Application charts are deployable packages that include Kubernetes templates.
+# Library charts provide utilities and cannot be deployed on their own.
+type: application
+
+# This is the version of the chart. Increment this whenever you make changes to the chart files.
+version: 0.1.0
+
+# This is the version of the application being deployed. It can be any string (not necessarily semantic versioning).
+appVersion: "1.16.0"

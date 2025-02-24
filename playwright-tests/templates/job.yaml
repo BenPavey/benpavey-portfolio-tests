@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "playwright-tests.fullname" . }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: playwright-tests
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: BASE_URL
+            value: "{{ .Values.env.BASE_URL }}"
+          - name: HEADLESS
+            value: "{{ .Values.env.HEADLESS }}"
+          - name: BROWSER
+            value: "{{ .Values.env.BROWSER }}"
+      restartPolicy: Never
+  backoffLimit: {{ .Values.job.backoffLimit }}
