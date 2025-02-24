@@ -19,12 +19,35 @@ This repository contains a test suite built with [Playwright](https://playwright
   - Reporter configuration that outputs an HTML report and console logs.
 
 - **tests/**  
-  Contains all the test files:
-  - **tests/homepage.spec.js**  
-    A sample test that:
-    - Navigates to [benpavey.com](https://benpavey.com)
-    - Verifies the page title matches expectations
-    - Captures a screenshot on failure
+  Contains all the test files that simulate real user journeys across the website:
+  - **tests/navbar.spec.js**  
+    Verifies that the navigation bar works as expected by ensuring:
+    - The logo is visible.
+    - All navigation links (About, Projects, Articles, Contact) are present, clickable, and scroll to the correct sections.
+    - The light/dark mode toggle switches the theme appropriately.
+  - **tests/hero.spec.js**  
+    Checks the Hero section by confirming:
+    - The header and subtext are rendered correctly.
+    - Tech icons are visible in the slider.
+    - (Note: The hover effect test for tech icons is currently skipped.)
+  - **tests/about.spec.js**  
+    Validates the About section by ensuring:
+    - Key elements like the profile picture, typing effect, and "About Me" text are visible.
+    - The CV download button is present and successfully initiates a file download.
+  - **tests/projects.spec.js**  
+    Tests the Projects section by verifying:
+    - The section header, description, and project cards are visible.
+    - Clicking the GitHub button on a project card opens the expected GitHub URL.
+  - **tests/articles.spec.js**  
+    Confirms the Articles & Guides section works as intended by checking:
+    - The section header and description are visible.
+    - The featured article's "Read More on Substack" link opens the correct external page.
+  - **tests/contact.spec.js**  
+    Ensures the Contact section is fully functional by:
+    - Verifying the header and descriptive text are rendered.
+    - Checking that each external contact link (GitHub, LinkedIn, Substack) and the mailto link have the correct hrefs.
+    - Simulating clicks on the external links to ensure they navigate to the expected pages.
+
 
 - **.gitignore**  
   Specifies files and directories that Git should ignore to keep the repository clean. This includes:
