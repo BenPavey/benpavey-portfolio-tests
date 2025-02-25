@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 8 * * 1'  # Run every Monday at 8 AM UTC
+    - cron: '0 8 * * 1'  # Runs every Monday at 8 AM UTC
 
 jobs:
   test:
@@ -13,20 +13,25 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables
+        run: echo "BASE_URL=https://www.benpavey.com" >> $GITHUB_ENV
 
       - name: Set Up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and Run Latest Tests
-        id: playwright-tests
+      - name: Build Docker Image
+        run: docker build -t benpavey-tests .
+
+      - name: Run Tests in Docker (Pass BASE_URL)
         run: |
-          docker build -t benpavey-tests .
-          docker run --rm benpavey-tests
-        continue-on-error: true  # Ensure we capture the result for reporting
+          docker run --rm \
+            -e BASE_URL="${{ env.BASE_URL }}" \
+            benpavey-tests
 
       - name: Upload Playwright Test Report
-        if: always()  # Upload even if tests fail
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-test-report

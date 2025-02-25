@@ -14,5 +14,5 @@ COPY . .
 # (Optional) Ensure browsers are installed (usually the base image covers this)
 RUN npx playwright install --with-deps
 
-# Run the Playwright tests when the container starts
-CMD ["npx", "playwright", "test"]
+# Run Playwright tests with dynamic BASE_URL
+CMD ["npx", "playwright", "test", "--project=chromium"]
