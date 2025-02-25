@@ -19,11 +19,6 @@ The scheduled Playwright test run has **successfully completed**.
 ⚠️ **Skipped:** `${{ steps.playwright-tests.outputs.skipped }}`
 
 📎 **Attachments:**  
-[📄 Download Playwright Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-
+[📄 Download Playwright Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)
 
 ---
-
-### **Next Steps**
-- 📌 **Review the test report** for details.
-- 🚀 **Continue working on new features or improvements!**
