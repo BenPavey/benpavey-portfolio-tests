@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: '0 10 * * *'  # Daily at 10:00 AM GMT
 
+permissions:
+  contents: write  # Allow pushing changes (e.g., GitHub Pages reports)
+  issues: write    # Allow creating GitHub issues
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -47,10 +51,14 @@ jobs:
         uses: JasonEtco/create-an-issue@v2
         with:
           filename: .github/ISSUE_TEMPLATE/test-success.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Notify via GitHub Issue for Test Failure
       - name: Create Issue if Tests Failed
         if: failure()
         uses: JasonEtco/create-an-issue@v2
         with:
-          filename: .github/ISSUE_TEMPLATE/test-failure.md
+          filename: .github/ISSUE_TEMPLATE/test-failed.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -13,6 +13,6 @@ The scheduled Playwright test run **failed**.
 - **Triggered By:** ${{ github.event_name }}
 
 📎 **Test Report:**
-- [📄 View Playwright Test Report](https://<your-github-username>.github.io/<repo-name>/reports/index.html)
+- [📄 View Playwright Test Report](https://BenPavey.github.io/benpavey-portfolio-tests/reports/index.html)
 
 ⚠️ **Please check the test logs and address any issues.**

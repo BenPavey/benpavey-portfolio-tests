@@ -13,6 +13,5 @@ The scheduled Playwright test run has **successfully completed**.
 - **Triggered By:** ${{ github.event_name }}
 
 📎 **Test Report:**
-- [📄 View Playwright Test Report](https://<your-github-username>.github.io/<repo-name>/reports/index.html)
-
+- [📄 View Playwright Test Report](https://BenPavey.github.io/benpavey-portfolio-tests/reports/index.html)
 🚀 No action required.
