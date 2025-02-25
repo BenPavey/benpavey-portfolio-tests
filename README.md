@@ -1,178 +1,148 @@
+### **📝 Updated `README.md` - BenPavey Portfolio Test Suite**
+```md
 # BenPavey Portfolio Test Suite
 
 This repository contains a test suite built with [Playwright](https://playwright.dev/) to validate the functionality, usability, and performance of the [benpavey.com](https://benpavey.com) portfolio website. The site is a single-page application built with Django (serving minimal Python code) alongside HTML, CSS, and JavaScript.
 
-## Project Structure
+## **🚀 Automated Testing & CI/CD Workflow**
+
+### **✅ GitHub Actions - Automated Testing**
+This test suite is **automatically executed** using **GitHub Actions**, which:
+- Runs tests **inside a Docker container** for consistency.
+- Executes **on every push to `main`** to catch regressions.
+- Runs **every Tuesday at 10:30 AM UTC** as a scheduled job.
+- Uploads test reports as an **artifact** for review.
+- Sends **email notifications** about test success or failure.
+
+#### **📌 Running Tests via GitHub Actions**
+You don’t need to manually trigger tests—they run automatically based on:
+- **Push to `main`** → Triggers tests immediately.
+- **Scheduled Cron Job** → Runs at `10:30 AM UTC on Tuesdays`.
+
+**Test Reports:**  
+After the workflow completes, **test reports are available** as GitHub Artifacts.
+
+---
+
+## **📂 Project Structure**
 
 - **README.md**  
-  This file provides an overview of the project, setup instructions, and a description of each file's responsibilities.
+  Overview of the project, setup instructions, and workflow details.
 
-- **package.json**  
-  Contains metadata about the Node.js project, including dependencies (like `@playwright/test`), scripts, and configuration details. This file ensures that everyone working on the project installs the exact required packages.
+- **.github/workflows/playwright.yml**  
+  - Defines **GitHub Actions** for running tests in **Docker**.
+  - Triggers tests on **push to `main`** and **every Tuesday at 10:30 AM UTC**.
+  - Uploads test reports as artifacts.
+
+- **Dockerfile**  
+  - Defines the **Playwright test environment** inside a Docker container.
+  - Ensures tests run consistently across environments.
 
 - **playwright.config.js**  
-  The main configuration file for Playwright. It defines:
-  - Global settings (e.g., headless mode, screenshot capture on test failures)
-  - Two test projects:
-    - **Chromium** for testing in a Chrome-like environment.
-    - **WebKit** for testing in a Safari-like environment.
-  - Reporter configuration that outputs an HTML report and console logs.
+  - Configuration for Playwright test execution.
+  - Specifies browsers (`Chromium`, `WebKit`), reporting, and timeouts.
 
 - **tests/**  
-  Contains all the test files that simulate real user journeys across the website:
-  - **tests/navbar.spec.js**  
-    Verifies that the navigation bar works as expected by ensuring:
-    - The logo is visible.
-    - All navigation links (About, Projects, Articles, Contact) are present, clickable, and scroll to the correct sections.
-    - The light/dark mode toggle switches the theme appropriately.
-  - **tests/hero.spec.js**  
-    Checks the Hero section by confirming:
-    - The header and subtext are rendered correctly.
-    - Tech icons are visible in the slider.
-    - (Note: The hover effect test for tech icons is currently skipped.)
-  - **tests/about.spec.js**  
-    Validates the About section by ensuring:
-    - Key elements like the profile picture, typing effect, and "About Me" text are visible.
-    - The CV download button is present and successfully initiates a file download.
-  - **tests/projects.spec.js**  
-    Tests the Projects section by verifying:
-    - The section header, description, and project cards are visible.
-    - Clicking the GitHub button on a project card opens the expected GitHub URL.
-  - **tests/articles.spec.js**  
-    Confirms the Articles & Guides section works as intended by checking:
-    - The section header and description are visible.
-    - The featured article's "Read More on Substack" link opens the correct external page.
-  - **tests/contact.spec.js**  
-    Ensures the Contact section is fully functional by:
-    - Verifying the header and descriptive text are rendered.
-    - Checking that each external contact link (GitHub, LinkedIn, Substack) and the mailto link have the correct hrefs.
-    - Simulating clicks on the external links to ensure they navigate to the expected pages.
-
+  Contains all Playwright test files covering user journeys across the website:
+  - `tests/navbar.spec.js` – Tests navigation bar, links, and dark mode toggle.
+  - `tests/hero.spec.js` – Verifies hero section, text, and scrolling icons.
+  - `tests/about.spec.js` – Ensures profile, typing effect, and CV download work.
+  - `tests/projects.spec.js` – Checks project listings and GitHub links.
+  - `tests/articles.spec.js` – Validates articles section and Substack links.
+  - `tests/contact.spec.js` – Tests contact section and external links.
 
 - **.gitignore**  
-  Specifies files and directories that Git should ignore to keep the repository clean. This includes:
-  - `node_modules/` — Local Node dependencies.
-  - `.env` — Local environment variable definitions.
-  - `screenshots/` — Folder for saving test screenshots.
-  - `test-report/` — Folder where test reports are generated.
+  - Prevents sensitive files (`.env`, `node_modules`, test reports) from being committed.
 
 ---
 
-## **🛠 Dependencies & Getting Started**
+## **🛠 Dependencies & Setup**
 
-This section covers all required dependencies and steps to run the Playwright test suite **locally** or within **Kubernetes (Minikube).**
-
----
-
-### **📌 Prerequisites**
-Ensure you have the following installed:
-
-- **Node.js & npm** – Required for Playwright and test execution.
-- **Playwright** – Automated browser testing framework.
-- **Docker** – Required for containerizing the test suite (optional for local execution).
-- **Kubernetes (Minikube)** – Local Kubernetes cluster for running tests inside a Job.
-- **Helm** – Package manager for deploying test workloads in Kubernetes.
-- **(Optional) Python** – If working with Django, set up a virtual environment.
+### **📌 Required Tools**
+| Dependency  | Purpose |
+|------------|---------|
+| **Node.js & npm** | Required for running Playwright tests. |
+| **Playwright** | Automated browser testing framework. |
+| **Docker** | Containerizes the test suite for CI/CD. |
+| **GitHub Actions** | Automates test execution and reporting. |
+| **(Optional) Minikube & Helm** | Used for Kubernetes-based test execution (future migration). |
 
 ---
 
-### **🔧 Installation Commands**
-#### **1️⃣ Install Core Dependencies**
+### **🔧 Installation & Running Tests Locally**
+#### **1️⃣ Install Node & Playwright**
 ```bash
-# Install Node.js and npm (if not installed)
-brew install node  # macOS
-sudo apt install nodejs npm  # Ubuntu/Debian
-choco install nodejs  # Windows
-
-# Install Playwright and required browsers
+# Install dependencies
 npm install
 npx playwright install
 ```
-
-#### **2️⃣ (Optional) Set Up a Python Virtual Environment**
-```bash
-python3 -m venv venv
-source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate  # Windows
-```
-
-#### **3️⃣ Install Docker & Kubernetes Tools**
-```bash
-# Install Docker
-brew install --cask docker  # macOS
-sudo apt install docker.io  # Ubuntu/Debian
-choco install docker-desktop  # Windows
-
-# Install Minikube (for local Kubernetes)
-brew install minikube  # macOS
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/minikube  # Linux
-
-# Install Helm (for managing Kubernetes deployments)
-brew install helm  # macOS
-sudo apt install helm  # Ubuntu/Debian
-choco install kubernetes-helm  # Windows
-```
-
----
-
-## **🚀 Running the Tests**
-This section covers **two ways to execute tests:**
-1. **Locally** (without Kubernetes)
-2. **Inside Kubernetes (Minikube)**
-
----
-
-### **1️⃣ Running Playwright Tests Locally**
-For local execution, run:
-
+#### **2️⃣ Run Tests Locally**
 ```bash
 npx playwright test
 ```
+#### **3️⃣ Run Tests in Docker**
+```bash
+# Build the Docker image
+docker build -t benpavey-tests .
 
-This will:
-- Launch a browser and execute tests.
-- Run in **headless mode** by default (configurable in `playwright.config.js`).
-- Generate an **HTML report** with results.
-
----
-
-### **2️⃣ Running the Tests in Kubernetes**
-To run the tests inside **Minikube**: refer to GUIDE.md
+# Run tests inside Docker
+docker run --rm benpavey-tests
+```
 
 ---
 
-## **Workflow Summary**
-The Playwright test suite follows this workflow:
+## **🚀 Running Tests in Kubernetes (Future Reference)**
+Although **GitHub Actions is currently used**, Kubernetes configurations are **kept for future migration**.
 
-1. **Tests are defined** in Playwright (`tests/` directory).
-2. **Locally, tests can be executed** via `npx playwright test`.
-3. **To run tests in Kubernetes**, a Docker image is built and deployed:
-   - The **Docker container** includes Playwright, dependencies, and tests.
-   - The container is **deployed as a Kubernetes Job** via Helm.
-   - **Helm charts** (`values.yaml`, `job.yaml`) configure the test execution.
-4. **Test logs are retrieved from Kubernetes** after execution.
+### **📌 Kubernetes & Helm**
+| File | Purpose |
+|------|---------|
+| `chart.yaml` | Defines the Helm chart for Kubernetes deployment. |
+| `values.yaml` | Stores configurable parameters (Docker image, test settings, resource limits). |
+| `job.yaml` | Defines a Kubernetes **Job** to execute tests inside a cluster. |
+
+### **📌 Running Tests in Minikube**
+```bash
+# Start Minikube
+minikube start
+
+# Load the latest test image
+minikube image load benpavey-tests:latest
+
+# Deploy tests using Helm
+helm upgrade --install playwright-tests ./playwright-tests
+
+# View test logs
+kubectl logs job/playwright-tests
+```
+**🔹 Next Step for Future Migration**: Move to **Google Kubernetes Engine (GKE)** for fully automated test execution in the cloud.
 
 ---
 
-## **Future Enhancements**
-### **1️⃣ Automating Tests with a Scheduled CronJob**
-- Once the test suite is migrated to **Google Kubernetes Engine (GKE)**, a **Kubernetes CronJob** will be used to **run tests automatically every Monday at 8 AM**.
-- This will remove the need for manual execution.
-
-### **2️⃣ Migrating to Google Kubernetes Engine (GKE)**
-- Move from **Minikube (local)** to **Google Cloud** to allow **tests to run without requiring a local machine to be online**.
-- Docker images will be stored in **Google Container Registry (GCR)**.
+## **🔄 CI/CD Workflow Summary**
+1️⃣ **Code is pushed to `main`**  
+2️⃣ **GitHub Actions triggers Playwright tests inside Docker**  
+3️⃣ **Tests execute and generate a report**  
+4️⃣ **Results are uploaded as an artifact**  
+5️⃣ **Email notifications are sent** on success or failure  
+6️⃣ **Tests automatically re-run every Tuesday at 10:30 AM UTC**  
 
 ---
 
-## Contributing
+## **🌟 Future Enhancements**
+- **GCP Migration** – Move from GitHub Actions to **Google Kubernetes Engine (GKE)** for fully cloud-based testing.
+- **Automated Reporting** – Improve test result notifications.
+- **Parallel Test Execution** – Optimize test runtime.
 
+---
+
+## **💡 Contributing**
 Contributions are welcome! To contribute:
 1. Fork the repository.
-2. Create a feature branch (e.g., `feature/new-test`).
-3. Commit your changes with clear commit messages.
-4. Open a pull request for review.
+2. Create a feature branch (`feature/new-test`).
+3. Commit changes with clear messages.
+4. Open a pull request.
 
 ---
 
-For questions or support, please contact [contact@benpavey.com].
+For support, contact [contact@benpavey.com].
