@@ -7,11 +7,6 @@ assignees: ["BenPavey"]
 
 The scheduled Playwright test run **failed**.
 
-📌 **Details:**
-- **Workflow:** ${{ github.workflow }}
-- **Commit SHA:** ${{ github.sha }}
-- **Triggered By:** ${{ github.event_name }}
-
 📎 **Test Report:**
 - [📄 View Playwright Test Report](https://BenPavey.github.io/benpavey-portfolio-tests/reports/index.html)
 
