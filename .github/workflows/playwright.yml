@@ -59,6 +59,10 @@ jobs:
         if: failure()
         uses: JasonEtco/create-an-issue@v2
         with:
+<<<<<<< HEAD
           filename: .github/ISSUE_TEMPLATE/test-failed.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+=======
+          filename: .github/ISSUE_TEMPLATE/test-failure.md
+>>>>>>> d9c75976049d54551afef5629b0a915e28082120
