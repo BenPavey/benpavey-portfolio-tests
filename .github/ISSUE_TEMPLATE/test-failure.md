@@ -1,4 +1,6 @@
 title: "🚨 Playwright Tests Failed!"
+labels: ["automated-test"]
+assignees: ["BenPavey"]
 
 
 ## 🚨 Playwright Tests Failed!
