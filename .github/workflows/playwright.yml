@@ -31,7 +31,8 @@ jobs:
           docker run --rm \
             -e BASE_URL="${{ env.BASE_URL }}" \
             -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
-            benpavey-tests
+            benpavey-tests \
+            /bin/sh -c "npx playwright test && ls -la /app/playwright-report"
 
       - name: Upload Playwright Test Report
         if: always()
