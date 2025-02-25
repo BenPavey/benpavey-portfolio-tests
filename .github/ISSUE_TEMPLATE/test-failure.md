@@ -1,3 +1,6 @@
+title: "🚨 Playwright Tests Failed!"
+
+
 ## 🚨 Playwright Tests Failed!
 
 The scheduled Playwright test run has **failed**.

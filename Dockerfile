@@ -15,4 +15,4 @@ COPY . .
 RUN npx playwright install --with-deps
 
 # Run Playwright tests with dynamic BASE_URL
-CMD ["npx", "playwright", "test", "--project=chromium"]
+CMD ["npx", "playwright", "test", "--reporter=html", "--output=playwright-report"]

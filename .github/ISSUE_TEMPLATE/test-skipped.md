@@ -1,18 +1,17 @@
-title: "✅ Playwright Tests Passed!"
+---
+title: "⚠️ Some Playwright Tests Were Skipped"
+---
+## ⚠️ Skipped Tests Detected
 
-## ✅ Playwright Tests Passed!
-
-The scheduled Playwright test run has **successfully completed**.
+Some tests were **skipped** during the latest Playwright test execution.
 
 📌 **Details:**
 - **Workflow:** `${{ github.workflow }}`
 - **Status:** `${{ job.status }}`
 - **Commit SHA:** `${{ github.sha }}`
 - **Triggered By:** `${{ github.event_name }}`
-- **Duration:** `${{ steps.playwright-tests.outputs.duration }}`
 
-📝 **Summary:**
-✅ **Pass:** `${{ steps.playwright-tests.outputs.passed }}`
+📝 **Skipped Tests Summary:**
 ⚠️ **Skipped:** `${{ steps.playwright-tests.outputs.skipped }}`
 
 📎 **Attachments:**
