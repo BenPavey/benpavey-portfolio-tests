@@ -20,5 +20,6 @@ The scheduled Playwright test run has **failed**.
 ✅ **Pass:** `${{ steps.playwright-tests.outputs.passed }}`
 ❌ **Fail:** `${{ steps.playwright-tests.outputs.failed }}`
 
-📎 **Attachments:**
-[Download Playwright Test Report](../../actions/artifacts)
+📎 **Attachments:**  
+[📄 Download Playwright Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+

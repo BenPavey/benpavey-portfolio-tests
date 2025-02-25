@@ -14,5 +14,6 @@ Some tests were **skipped** during the latest Playwright test execution.
 📝 **Skipped Tests Summary:**
 ⚠️ **Skipped:** `${{ steps.playwright-tests.outputs.skipped }}`
 
-📎 **Attachments:**
-[Download Playwright Test Report](../../actions/artifacts)
+📎 **Attachments:**  
+[📄 Download Playwright Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
