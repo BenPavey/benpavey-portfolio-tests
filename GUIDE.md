@@ -141,6 +141,11 @@ kubectl delete job/playwright-tests
 docker image prune -a
 ```
 
+### **🧹 stop tests running on kubernetes**
+```bash
+helm uninstall playwright-tests
+```
+
 ### **🔥 Completely Remove Minikube (If Needed)**
 ```bash
 minikube delete

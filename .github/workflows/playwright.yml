@@ -1,0 +1,57 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 8 * * 1'  # Run every Monday at 8 AM UTC
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Run Latest Tests
+        id: playwright-tests
+        run: |
+          docker build -t benpavey-tests .
+          docker run --rm benpavey-tests
+        continue-on-error: true  # Ensure we capture the result for reporting
+
+      - name: Upload Playwright Test Report
+        if: always()  # Upload even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-test-report
+          path: playwright-report/
+
+      - name: Create GitHub Issue on Failure
+        if: failure()
+        uses: JasonEtco/create-an-issue@v2
+        with:
+          filename: .github/ISSUE_TEMPLATE/test-failure.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Issue on Success
+        if: success()
+        uses: JasonEtco/create-an-issue@v2
+        with:
+          filename: .github/ISSUE_TEMPLATE/test-success.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Issue on Skipped Tests
+        if: steps.playwright-tests.outcome == 'skipped'
+        uses: JasonEtco/create-an-issue@v2
+        with:
+          filename: .github/ISSUE_TEMPLATE/test-skipped.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
