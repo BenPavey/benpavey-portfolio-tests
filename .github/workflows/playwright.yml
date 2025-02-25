@@ -5,61 +5,52 @@ on:
     branches:
       - main
   schedule:
-    - cron: '00 11 * * *'  # Runs every day at 11:00 AM UTC
+    - cron: '0 10 * * *'  # Daily at 10:00 AM GMT
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write  # ✅ Grants permission to create issues
-
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Environment Variables
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
-
-      - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build Docker Image
-        run: docker build -t benpavey-tests .
-
-      - name: Run Tests in Docker (Pass BASE_URL)
+      - name: Install Dependencies
         run: |
-          docker run --rm \
-            -e BASE_URL="${{ env.BASE_URL }}" \
-            -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
-            benpavey-tests
+          npm install
+          npx playwright install --with-deps
 
-      - name: Upload Playwright Test Report
-        if: always()
+      - name: Run Playwright Tests
+        run: |
+          npx playwright test --reporter=html
+
+      - name: Upload Playwright Report as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: playwright-test-report
           path: playwright-report/
+          retention-days: 7  # Keep test reports for 7 days
 
-      - name: Create GitHub Issue on Failure
-        if: failure()
-        uses: JasonEtco/create-an-issue@v2
+      - name: Deploy Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          filename: .github/ISSUE_TEMPLATE/test-failure.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./playwright-report
+          destination_dir: reports
+          keep_files: true
 
-      - name: Create GitHub Issue on Success
+      # Notify via GitHub Issue for Test Success
+      - name: Create Issue if Tests Passed
         if: success()
         uses: JasonEtco/create-an-issue@v2
         with:
           filename: .github/ISSUE_TEMPLATE/test-success.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub Issue on Skipped Tests
-        if: steps.playwright-tests.outcome == 'skipped'
+      # Notify via GitHub Issue for Test Failure
+      - name: Create Issue if Tests Failed
+        if: failure()
         uses: JasonEtco/create-an-issue@v2
         with:
-          filename: .github/ISSUE_TEMPLATE/test-skipped.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          filename: .github/ISSUE_TEMPLATE/test-failure.md

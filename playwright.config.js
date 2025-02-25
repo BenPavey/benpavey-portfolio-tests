@@ -6,6 +6,7 @@ require('dotenv').config();
 const config = {
     use: {
       // Global settings for all tests
+      baseURL: process.env.BASE_URL,
       headless: true,
       screenshot: 'only-on-failure', // Capture screenshots on test failures.
     },
@@ -22,4 +23,3 @@ const config = {
     reporter: [['list'], ['html', { outputFolder: 'test-report', open: 'never' }]],
   };
   module.exports = config;
-  
