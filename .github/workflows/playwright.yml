@@ -25,11 +25,11 @@ jobs:
           npm install
           npx playwright install --with-deps
 
-      - name: Ensure Report Directory Exists
-        run: mkdir -p test-report
-        
+      - name: Clean Up Old Reports
+        run: rm -rf playwright-report  # ✅ Remove old reports before running tests
+
       - name: Run Playwright Tests
-        run: npx playwright test --reporter=html
+        run: npx playwright test --reporter=html  # ✅ Will now default to `playwright-report/`
 
       - name: Debug - List Directory Contents
         run: ls -R
@@ -38,14 +38,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-test-report
-          path: test-report/  # ✅ Ensure this matches the actual report path
+          path: playwright-report/  # ✅ Using default Playwright report directory
           retention-days: 7  # Keep test reports for 7 days
 
       - name: Deploy Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: test-report/  # ✅ Ensure this matches the correct test report folder
+          publish_dir: playwright-report/  # ✅ Ensure this matches Playwright's default path
 
       # Notify via GitHub Issue for Test Success
       - name: Create Issue if Tests Passed
