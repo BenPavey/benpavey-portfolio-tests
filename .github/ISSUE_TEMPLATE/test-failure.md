@@ -8,6 +8,7 @@ assignees: ["BenPavey"]
 The scheduled Playwright test run **failed**.
 
 📎 **Test Report:**
-- [📄 View Playwright Test Report](https://BenPavey.github.io/benpavey-portfolio-tests/reports/index.html)
+- [📄 View Playwright Test Report](https://benpavey.github.io/benpavey-portfolio-tests/index.html)
+
 
 ⚠️ **Please check the test logs and address any issues.**
