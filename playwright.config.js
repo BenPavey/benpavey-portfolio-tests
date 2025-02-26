@@ -1,3 +1,13 @@
+const fs = require('fs');
+const path = require('path');
+
+const reportPath = path.resolve(__dirname, 'test-report');
+
+// Ensure the directory exists before writing reports
+if (!fs.existsSync(reportPath)) {
+  fs.mkdirSync(reportPath, { recursive: true });
+}
+
 require('dotenv').config();
 
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
@@ -13,7 +23,7 @@ const config = {
   ],
   reporter: [
     ['list'],
-    ['html', { outputFolder: 'test-report', open: 'never' }],  // ✅ Ensure output is in test-report/
+    ['html', { outputFolder: 'test-report', open: 'never' }],
   ],
 };
 
