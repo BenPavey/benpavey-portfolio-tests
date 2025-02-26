@@ -29,16 +29,23 @@ jobs:
         run: rm -rf playwright-report  # ✅ Remove old reports before running tests
 
       - name: Run Playwright Tests
-        run: npx playwright test --reporter=html  # ✅ Will now default to `playwright-report/`
+        run: npx playwright test --reporter=html  # ✅ Generates report in `playwright-report/`
 
       - name: Debug - List Directory Contents
         run: ls -R
+
+      - name: Ensure Playwright Report Exists
+        run: |
+          if [ ! -d "playwright-report" ]; then
+            echo "Error: playwright-report/ directory not found!"
+            exit 1
+          fi
 
       - name: Upload Playwright Report as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: playwright-test-report
-          path: playwright-report/  # ✅ Using default Playwright report directory
+          path: playwright-report/  # ✅ Uploads the correct report folder
           retention-days: 7  # Keep test reports for 7 days
 
       - name: Deploy Report to GitHub Pages

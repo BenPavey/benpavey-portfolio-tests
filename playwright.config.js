@@ -13,7 +13,7 @@ const config = {
   ],
   reporter: [
     ['list'],
-    ['html'],  // ✅ No custom output folder (default is `playwright-report/`)
+    ['html', { outputFolder: 'playwright-report', open: 'never' }], // ✅ Ensure it saves to playwright-report/
   ],
 };
 
