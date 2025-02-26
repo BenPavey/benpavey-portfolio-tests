@@ -33,17 +33,20 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-test-report
-          path: playwright-report/
+          path: test-report/  # ✅ Updated path to match the actual folder
           retention-days: 7  # Keep test reports for 7 days
 
       - name: Deploy Report to GitHub Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-          destination_dir: reports
-          keep_files: true
+          publish_dir: test-report/  # ✅ Ensure this matches the correct test report folder
+
+      - name: Deploy Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./test-report  # Ensure this matches the actual report directory
 
       # Notify via GitHub Issue for Test Success
       - name: Create Issue if Tests Passed
