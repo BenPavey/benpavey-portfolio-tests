@@ -1,4 +1,3 @@
-Here’s your updated README.md, refined and structured for clarity:
 
 # BenPavey Portfolio Test Suite
 
